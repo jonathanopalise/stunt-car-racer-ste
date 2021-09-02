@@ -1,0 +1,6 @@
+513e8: this belongs to the rendering of the top half of the engine
+513e0: this appears to be the start of a span that draws a line of the engine top half
+    - a1 contains mask data, 16 bytes at a time
+    - a0 contains graphics data
+    - d3 is the iteration count, each iteration is 16 pixels (8 bytes)
+

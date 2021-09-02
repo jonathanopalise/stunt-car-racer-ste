@@ -1,0 +1,2 @@
+loadbin /home/jonathan/scr-blitter/0x4f2a6_sky.bin 0x4f2a6
+loadbin /home/jonathan/scr-blitter/0x4f246_ground.bin 0x4f246

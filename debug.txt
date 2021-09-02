@@ -1,2 +1,3 @@
-loadbin /home/jonathan/scr-blitter/0x4f2a6_sky.bin 0x4f2a6
+loadbin /home/jonathan/scr-blitter/0x4f2a6_jump_to_sky.bin 0x4f2a6
+loadbin /home/jonathan/scr-blitter/0x80000_sky.bin 0x80000
 loadbin /home/jonathan/scr-blitter/0x4f246_ground.bin 0x4f246

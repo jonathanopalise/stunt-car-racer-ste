@@ -15,12 +15,21 @@ draw_ground:
     addq.l #2,a4
     move.w #$f,(a4)+    ; 8a3a.w hop/op
 
-    rept 3
     move.l a0,-10(a4)   ; 8a32.l destaddress
     move.w d4,-4(a4)    ; 8a38.w ycount
     move.b #$c0,(a4)    ; 8a3c.b control
-    addq.l #2,a0        ; move to next plane
-    endr
+    addq.l #4,a0        ; move to third plane
+
+    move.l a0,-10(a4)   ; 8a32.l destaddress
+    move.w d4,-4(a4)    ; 8a38.w ycount
+    move.b #$c0,(a4)    ; 8a3c.b control
+    addq.l #2,a0        ; move to fourth plane
+
+    move.l a0,-10(a4)   ; 8a32.l destaddress
+    move.w d4,-4(a4)    ; 8a38.w ycount
+    move.b #$c0,(a4)    ; 8a3c.b control
+    subq.l #4,a0        ; move to next plane
+
     move.l a0,-10(a4)   ; 8a32.l destaddress
     move.w d4,-4(a4)    ; 8a38.w ycount
     clr.w -2(a4)        ; 8a3a.w hop/op

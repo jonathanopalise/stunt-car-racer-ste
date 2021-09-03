@@ -1,6 +1,4 @@
-
-    ORG $80000
-
+draw_sky:
     move.l a0,-(a7)
 
     addq.l #1,d4
@@ -31,6 +29,4 @@
     move.l (a7)+,a0     ; restore a0
 
     jmp $4f2f6
-
-
 

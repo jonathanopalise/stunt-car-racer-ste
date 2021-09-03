@@ -1,40 +1,41 @@
-    ; 80000
+    ORG $80000
 
-    movem.l a0-a2/d0-d1,-(sp)
+    move.l a0,-(a7)
+    move.l d0,-(a7)
 
-    lea $ffff8a00.w,a0
-    rept 4
-    move.l d6,(a0)+
-    move.l d7,(a0)+
-    endr
-    addq.l #8,a0
+    addq.l #1,d4
+    lea $ffff8a28.w,a4
+    move.w #-1,(a4)+    ; 8a28.w endmask1
+    move.w #-1,(a4)+    ; 8a2a.w endmask2
+    move.w #-1,(a4)+    ; 8a2c.w endmask3
+    move.w #8,(a4)+     ; 8a2e.w destxinc
+    move.w #40,(a4)+    ; 8a30.w destyinc
+    addq.l #4,a4
+    move.w #16,(a4)+    ; 8a36.w xcount
+    addq.l #2,a4
+    move.w #$f,(a4)+    ; 8a3a.w hop/op
 
-    moveq.l #-1,d0
+    ; at this point, a4 contains address of control
+    ; a0 contains destination
 
-    move.w d0,(a0)+     ; 8a28.w endmask1
-    move.w d0,(a0)+     ; 8a2a.w endmask2
-    move.w d0,(a0)+     ; 8a2c.w endmask3
-    clr.w (a0)+         ; 8a2e.w destxinc
-    move.w #2,(a0)+     ; 8a30.w destyinc
-    addq.l #4,a0
-    move.w #1,(a0)+     ; 8a36.w xcount
+    move.l $518a4,a0
+    moveq.l #3,d0
+
+    rept 3
+    move.l a0,-10(a4)   ; 8a32.l destaddress
+    move.w d4,-4(a4)    ; 8a38.w ycount
+    move.b #$c0,(a4)    ; 8a3c.b control
     addq.l #2,a0
-    move.w #$103,(a0)+  ; 8a3a.w hop/op, a0 is now 8a3c
+    endr
+    move.l a0,-10(a4)   ; 8a32.l destaddress
+    move.w d4,-4(a4)    ; 8a38.w ycount
+    move.w #$0,-2(a4)     ; 8a3a.w hop/op
+    move.b #$c0,(a4)    ; 8a3c.b control
 
-    lea -4(a0),a1       ; 8a38.w ycount
-    lea -6(a1),a2       ; 8a32.l destaddress
-    move.w #$c0,d0      ; control value
-    move.w #64,d1       ; ycount value
+    move.l (a7)+,d0     ; restore d0
+    move.l (a7)+,a0     ; restore a0
 
-    move.l $518a4,a4    ; set start destination
-skyline_loop_start:
-    move.l a4,(a2)      ; 8a32.l destaddress
-    move.w d1,(a1)      ; 8a38.w ycount
-    move.b d0,(a0)      ; 8a3c.b control (what about linenum?)
-    lea 160(a4),a4      ; move destination to next line
-skyline_loop_end:
-    dbra d4,skyline_loop_start
-
-    movem.l (sp)+,a0-a2/d0-d1
     jmp $4f2f6
+
+
 

@@ -7,6 +7,8 @@ SOURCE_DIR = src/
 GENERATED_SOURCE_DIR = $(SOURCE_DIR)generated/
 BIN_DIR = bin/
 
+BIN_FILES = $(PATCHES) $(BIN_DIR)0x80000.bin
+
 PATCHES =\
 	$(BIN_DIR)0x4f246_jump_to_draw_ground.bin\
 	$(BIN_DIR)0x4f2a6_jump_to_draw_sky.bin\
@@ -29,6 +31,8 @@ clean:
 	rmdir $(GENERATED_SOURCE_DIR) || true
 	rm $(BIN_DIR)*.bin || true
 	rm $(BIN_DIR)*.o || true
+
+all: $(GENERATED_SOURCE_DIR) $(BIN_FILES)
 
 $(PATCHES): $(BIN_DIR)%.bin: $(SOURCE_DIR)%.s $(GENERATED_SOURCE_DIR)symbols_0x80000.inc
 	$(VASM) $< -Fbin -o $@

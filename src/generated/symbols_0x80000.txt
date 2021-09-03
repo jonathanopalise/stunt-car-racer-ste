@@ -1,2 +1,0 @@
-00080070 a draw_ground
-00080000 a draw_sky

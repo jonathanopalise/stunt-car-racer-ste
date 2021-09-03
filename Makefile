@@ -12,10 +12,12 @@ BIN_FILES = $(PATCHES) $(BIN_DIR)0x80000.bin
 PATCHES =\
 	$(BIN_DIR)0x4f246_jump_to_draw_ground.bin\
 	$(BIN_DIR)0x4f2a6_jump_to_draw_sky.bin\
+	$(BIN_DIR)0x513dc_jump_to_draw_engine_top.bin
 
 0X80000_DEPENDENCIES =\
 	$(SOURCE_DIR)draw_sky.s\
-	$(SOURCE_DIR)draw_ground.s
+	$(SOURCE_DIR)draw_ground.s\
+	$(SOURCE_DIR)draw_engine_top.s
 
 default: check_dependencies all
 

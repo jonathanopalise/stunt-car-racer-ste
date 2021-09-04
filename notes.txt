@@ -5,3 +5,204 @@
     - a0 contains graphics data
     - d3 is the iteration count, each iteration is 16 pixels (8 bytes)
 
+
+move.l (a0),d0    ; get longword from screen buffer
+move.w (a1),d5    ; get word of mask data into half of d5
+swap d5
+move.w (a1)+,d5   ; get word of mask data into other half of d5
+and.l d5,d0       ; apply mask data to screen data
+or.l (a1)+,d0     ; apply bitmap data to screen data
+move.l d0,(a0)+   ; write processed longword back to screen buffer
+
+move.l a0,(d0)    ; get longword from screen buffer
+and.l d5,d0       ; apply mask data
+or.l (a1)+,d0     ; apply bitmap data
+move.l d0,(a0)+   ; move onto next
+
+so structure of data is:
+- 1 word of mask data
+- 4 words of bitmap data
+
+          FF 8A00   |oooooooo||oooooooo|     HALFTONE RAM
+          FF 8A02   |oooooooo||oooooooo|
+          FF 8A04   |oooooooo||oooooooo|
+                    :        ::        :
+          FF 8A1E   |oooooooo||oooooooo|
+          FF 8A20   |oooooooo||ooooooo-|     SOURCE X INCREMENT
+          FF 8A22   |oooooooo||ooooooo-|     SOURCE Y INCREMENT
+          FF 8A24   |--------||oooooooo|     SOURCE ADDRESS
+          FF 8A26   |oooooooo||ooooooo-|
+          FF 8A28   |oooooooo||oooooooo|     ENDMASK 1
+          FF 8A2A   |oooooooo||oooooooo|     ENDMASK 2
+          FF 8A2C   |oooooooo||oooooooo|     ENDMASK 3
+          FF 8A2E   |oooooooo||ooooooo-|     DESTINATION X INCREMENT
+          FF 8A30   |oooooooo||ooooooo-|     DESTINATION Y INCREMENT
+          FF 8A32   |--------||oooooooo|     DESTINATION ADDRESS
+          FF 8A34   |oooooooo||ooooooo-|
+          FF 8A36   |oooooooo||oooooooo|     X COUNT
+          FF 8A38   |oooooooo||oooooooo|     Y COUNT
+
+          FF 8A3A   |------oo|               HOP
+          FF 8A3B   |----oooo|               OP
+
+          FF 8A3C   |ooo-oooo|
+                    ||| |__|_____________ LINE NUMBER
+                    |||__________________ SMUDGE
+                     ||__________________ HOG
+                     |___________________ BUSY
+
+          FF 8A3D   |oo--oooo|
+                    ||  |__|_____________ SKEW
+                    ||___________________ NFSR
+                     |____________________ FXSR
+
+
+                _________  _____________           ________________
+               |         ||             |         |                |
+               |  SOURCE ||  SOURCE     |         |  DESTINATION   |
+               |_________||_____________|         |________________|
+                    |________________|<< SKEW |                  |
+                                  |                              |
+           ______________      ___|____       ________________   |
+          |              |    |        |     |                |  |
+          |   HALFTONE   |----|  HOP   |-----|    LOGIC OP    |--|
+          |______________|    |________|     |________________|  |
+                                                       |         |
+                                                   ____|____     |
+                                                  |         |    |
+                                                  | ENDMASK |____|
+                                                  |_________|
+                                                       |
+                                              _________|_________
+                                             |                   |
+                                             |  NEW DESTINATION  |
+                                             |___________________|
+           _____________________________
+          |    |                        |
+          | HOP| COMBINATION RULE       |
+          |    |                        |
+          | 0  | all ones               |
+          | 1  | halftone               |
+          | 2  | source                 |
+          | 3  | source AND halftone    |
+          |____|________________________|
+
+           _______________________________________
+          |    |                                  |
+          | OP | COMBINATION RULE                 |
+          |    |                                  |
+          | 0  | all zeros                        |
+          | 1  | source AND destination           |
+          | 2  | source AND NOT destination       |
+          | 3  | source                           |
+          | 4  | NOT source AND destination       |
+          | 5  | destination                      |
+          | 6  | source XOR destination           |
+          | 7  | source OR destination            |
+          | 8  | NOT source AND NOT destination   |
+          | 9  | NOT source XOR destination       |
+          | A  | NOT destination                  |
+          | B  | source OR NOT destination        |
+          | C  | NOT source                       |
+          | D  | NOT source OR destination        |
+          | E  | NOT source OR NOT destination    |
+          | F  | all ones                         |
+          |____|__________________________________|
+
+   | HOP
+LOP| 0  1  2  3    HOP = Halftone Operation
+---+-----------    LOP = Logical Operation
+0  | 1  1  1  1
+1  | 2  2  3  3    All timings are assuming the BLITTER is
+2  | 2  2  3  3    the only DMA device using the BUS. If other
+3  | 1  1  2  2    devices are using the BUS the figures may
+4  | 2  2  3  3    increase.
+5  | 2  2  2  2
+6  | 2  2  3  3    All timing figures are given in nops per word
+7  | 2  2  3  3    of transfer. Ie. a value of 2 would take the
+8  | 2  2  3  3    equivilent time of 2 nops to transfer 1 word
+9  | 2  2  3  3    of data.
+10 | 2  2  2  2
+11 | 2  2  3  3
+12 | 1  1  2  2
+13 | 2  2  3  3
+14 | 2  2  3  3
+15 | 1  1  1  1
+
+- 256 pixels
+    - 128 bytes
+    - 64 words of image data
+    - 16 words of mask data
+
+- i think we'll need 4 and passes!
+    - We'll first need to do a direct copy of the mask into halftone ram ($ffff8a00)
+        - srcxinc = 10
+        - srcyinc = (not required)
+        - sourceaddress = a1
+        - endmask1 = $ffff
+        - endmask2 = $ffff
+        - endmask3 = $ffff
+        - destxinc = 2
+        - destyinc = (not required)
+        - destinationaddress = 0xffff8a00
+        - xcount = 16 (need to check this value against 68k code)
+        - ycount = 1
+        - hop/op = $0203 (hop = source, op = source, 2 nops)
+        - single pass #$c0 to control
+    - then we'll need to AND that mask data across all 4 bitplanes
+        - srcxinc = (not required)
+        - srcyinc = (not required)
+        - sourceaddress = (not required)
+        - endmask1 = $ffff
+        - endmask2 = $ffff
+        - endmask3 = $ffff
+        - destxinc = 0
+        - destyinc = 2
+        - destinationaddress = a0 (add 2 on each pass)
+        - xcount = 1
+        - ycount = 16 (need to check this value against 68k code)
+        - hop/op = #$0101 (hop = halftone, op = source AND destination, 2 nops)
+        - four passes:
+            - ycount = 16
+            - #$c0 to control
+            - add 2 to destinationaddress after each pass
+    - finally we'll need to fill in the colours
+        - srcxinc = 2
+        - srcyinc = 2? (need to skip the mask word after each 4 words written)
+        - sourceaddress = a1 + 2 (to skip initial mask word) 
+        - endmask1 = $ffff
+        - endmask2 = $ffff
+        - endmask3 = $ffff
+        - destxinc = 2
+        - destyinc = (not required)
+        - destinationaddress = a0
+        - xcount = 4
+        - ycount = 16
+        - hop/op = #$0207 (hop = halftone, op = source AND destination, 3 nops)
+        - single pass #$c0 to control
+
+---------------
+
+
+    - ycount would need to be 1 (we need to stay on linenum = 0)
+    - xcount would need to be d3*4 (number of 16 pixel blocks * 4)
+    - hop/op: #$0101?
+    - don't forget to set first word of halftone memory to mask word
+    - don't forget to set start destination (a0)
+    - srcxincfor each word, increment source by 5 words
+
+
+
+- we should be able to get away with a single or pass because we're not skewing
+    - hop/op: #$0207
+    - number of words would need to be d3 * 4
+    - don't forget to set source address
+    - xcount would need to be 4, ycount would need to be d3 (total = d3*4)
+    - we need to draw 4 words, then skip a source word, so:
+        - srcxinc = 2, srcyinc = 2(?) (this is because we need 
+        - dstxinc = 2, dstyinc = 0
+    - don't forget to set start source = 2+a1
+    - don't forget to set start destination = a0
+
+at the end of each line, will we need to manually increment the source according
+

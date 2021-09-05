@@ -10,12 +10,12 @@ update_halftone:
     endr
 
     lea $ffff8a2e.w,a0
-    clr.w (a0)+       ; destxinc 8a2e.w
-    move.w #2,(a0)+   ; destyinc 8a30.w
+    clr.w (a0)+              ; (8) destxinc 8a2e.w
+    move.w #2,(a0)+          ; destyinc 8a30.w
     addq.l #4,a0
-    move.w #1,(a0)+   ; xcount 8a36.w
+    move.w #1,(a0)+          ; xcount 8a36.w
     addq.l #2,a0
-    move.w #$103,(a0)+ ; hop/op 8a3a.w
+    move.w #$103,(a0)+       ; hop/op 8a3a.w
 
     move.l usp,a0
 

@@ -26,7 +26,7 @@ start_blitter_span:
     move.l a4,(a0)+          ; (8) dest address 8a32.l
     addq.l #2,a0             ; (8)
     move.w d1,(a0)+          ; (8) ycount 8a38.w
-    addq.w #2,a0             ; (4)
+    addq.w #2,a0             ; (8)
     move.b #$c0,(a0)         ; (12) blitter control 8a3c.b
     move.l usp,a0            ; (4) restore a0
 

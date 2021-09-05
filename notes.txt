@@ -181,6 +181,21 @@ LOP| 0  1  2  3    HOP = Halftone Operation
         - hop/op = #$0207 (hop = halftone, op = source AND destination, 3 nops)
         - single pass #$c0 to control
 
+span line renderer:
+        - srcxinc = (not required)
+        - srcyinc = (not required)
+        - sourceaddress = (not required)
+        - endmask1 = $ffff
+        - endmask2 = $ffff
+        - endmask3 = $ffff
+        - destxinc = 0
+        - destyinc = 2
+        - destinationaddress = a4
+        - xcount = 1
+        - ycount = d1*4
+        - hop/op = $0103 (hop = source, op = source, 2 nops)
+        - single pass #$c0 to control
+
 ---------------
 
 
@@ -220,6 +235,39 @@ w 0x50040 0x28 0xc7
 - i want to extract the area from 50018 to 50048
 - so 5003c needs to be patched with a long jump to the end of the loop in the 0x80000 range
 - the instruction following 5003c needs to be a long jump to the start of the loop in the 0x80000 range
+- 50018 needs to be patched to jump to the instruction immediately following the one at 5003c
+- need to think about where the loop in the 0x80000 range goes to once done.
 
+things that change d6:
+    - 4e1c8: geometry goes mental if this is nopped
+    - 4e1dc: geometry goes mental if this is nopped
+    - 4efca: game crashes if this is nopped
+    - 4efd4: appears to set d6 for ground colour
+    - 50edc: this is a movem, leave until later
+    - 50d9e: game crashes if replaced with "addq.l #2,a6", maybe related to tyre drawing?
+    - 50da0: game crashes if nopped
+    - 50dd8: this is a loop
 
+things that change d7:
+    - 4a42a
+    - 4a4b0
+    - 4b910
+    - 4b968
+    - 4ba38 
+    - 4ba6a
+    - 4ba70
+    - 4ba84
+    - 4ba8a
+    - 4c6f8
+    - 4c6fc
+    - 4c6fe
 
+instructions that determine the colour of polygons:
+    - 4fe8e: (d6) influences a number of things, looks to be initialisation based
+    - 4fe90: influences a number of things, looks to be initialisation based
+    - 4feaa: appears to relate to the side panels
+    - 4feac: appears to relate to the side panels
+    - 4feb4: appears to relate to the side panels
+    - 4feb6: this looks to be where the d6/d7 values are finalised
+        - we typically have several breaks on 5003c for each break on 4feb6
+    - so let's try intercepting 4feb6 to do some blitter magic

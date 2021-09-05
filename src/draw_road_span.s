@@ -3,7 +3,7 @@
 ; - a4 is the back buffer address to which this span needs to be written
 
 span_jump_table:
-    dc.l 0 ; should never be used
+    dc.l do_nothing ; should never be used
     dc.l draw_one_chunk    ; 16 wide
     dc.l draw_two_chunks    ; 32 wide
     dc.l draw_three_chunks    ; 48 wide
@@ -22,8 +22,6 @@ span_jump_table:
     dc.l start_blitter_span    ; 16 wide
 
 road_span_from_5003c:
-    tst.w d1
-    beq.s skip_span          ; if number of 16 pixel blocks is 0, do nothing
     bra.s start_span
 
 road_span_from_50018:
@@ -65,6 +63,7 @@ draw_two_chunks:
 draw_one_chunk:
     move.l d6,(a4)+
     move.l d7,(a4)+
+do_nothing:
     move.l usp,a0            ; restore a0
     jmp $50048
 

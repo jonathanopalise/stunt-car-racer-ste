@@ -1,7 +1,7 @@
 update_halftone:
     move.l #$4e0a0,a5  ; instruction previously located at 4feb6
 
-    move.l a0,-(a7)
+    move.l a0,usp
 
     lea $ffff8a00.w,a0
     rept 4
@@ -17,6 +17,6 @@ update_halftone:
     addq.l #2,a0
     move.w #$103,(a0)+ ; hop/op 8a3a.w
 
-    move.l (a7)+,a0
+    move.l usp,a0
 
     rts

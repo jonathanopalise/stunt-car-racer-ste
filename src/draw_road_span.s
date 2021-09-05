@@ -19,13 +19,13 @@ start_span:
     add.w d1,d1
     add.w d1,d1
 
-    lea $ffff8a2e.w,a0
-    clr.w (a0)+              ; destxinc 8a2e.w
-    move.w #2,(a0)+          ; destyinc 8a30.w
+    ; destxinc (8a2e), destyinc (8a30), xcount (8a36), hop/op (8a3a) can all be moved
+
+    lea $ffff8a32.w,a0
     move.l a4,(a0)+          ; dest address 8a32.l
-    move.w #1,(a0)+          ; xcount 8a36.w
+    addq.l #2,a0
     move.w d1,(a0)+          ; ycount 8a38.w
-    move.w #$103,(a0)+       ; hop/op 8a3a.w
+    addq.l #2,a0
     move.b #$c0,(a0)         ; blitter control 8a3c.b
 
     move.l (a7)+,a0

@@ -1,5 +1,6 @@
 loadbin /home/jonathan/scr-blitter/bin/0x4f246_jump_to_draw_ground.bin 0x4f246
 loadbin /home/jonathan/scr-blitter/bin/0x4f2a6_jump_to_draw_sky.bin 0x4f2a6
-loadbin /home/jonathan/scr-blitter/bin/0x513dc_jump_to_draw_engine_top.bin 0x513dc
+loadbin /home/jonathan/scr-blitter/bin/0x50018_redirect_jump.bin 0x50018
+loadbin /home/jonathan/scr-blitter/bin/0x5003c_jump_to_road_span_loop_end.bin 0x5003c
 loadbin /home/jonathan/scr-blitter/bin/0x80000.bin 0x80000
 

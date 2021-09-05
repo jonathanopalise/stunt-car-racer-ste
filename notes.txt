@@ -206,3 +206,20 @@ LOP| 0  1  2  3    HOP = Halftone Operation
 
 at the end of each line, will we need to manually increment the source according
 
+365312 + (160*100) + 80
+
+b ($5d1d0).w ! ($5d1d0).w 
+
+$50042
+$800a6
+$49850
+
+this appears to be a main loop
+w 0x50040 0x28 0xc7
+
+- i want to extract the area from 50018 to 50048
+- so 5003c needs to be patched with a long jump to the end of the loop in the 0x80000 range
+- the instruction following 5003c needs to be a long jump to the start of the loop in the 0x80000 range
+
+
+

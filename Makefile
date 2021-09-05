@@ -2,7 +2,6 @@ VASM = vasmm68k_mot
 NM = m68k-ataribrownest-elf-nm
 PHP = php
 
-BIN_FILES = bin/0x70660.bin bin/0x7086e.bin bin/0x70880.bin bin/0x70896.bin bin/0x7450c.bin bin/0x744ba.bin bin/0x74586.bin bin/0x7666c.bin bin/0x7c916.bin bin/0x7a2c0.bin bin/0x7a2dc.bin bin/0x7a312.bin bin/0x7a496.bin bin/0x80000.bin
 SOURCE_DIR = src/
 GENERATED_SOURCE_DIR = $(SOURCE_DIR)generated/
 BIN_DIR = bin/
@@ -12,12 +11,15 @@ BIN_FILES = $(PATCHES) $(BIN_DIR)0x80000.bin
 PATCHES =\
 	$(BIN_DIR)0x4f246_jump_to_draw_ground.bin\
 	$(BIN_DIR)0x4f2a6_jump_to_draw_sky.bin\
-	$(BIN_DIR)0x513dc_jump_to_draw_engine_top.bin
+	$(BIN_DIR)0x513dc_jump_to_draw_engine_top.bin\
+	$(BIN_DIR)0x50018_redirect_jump.bin\
+	$(BIN_DIR)0x5003c_jump_to_road_span_loop_end.bin
 
 0X80000_DEPENDENCIES =\
 	$(SOURCE_DIR)draw_sky.s\
 	$(SOURCE_DIR)draw_ground.s\
-	$(SOURCE_DIR)draw_engine_top.s
+	$(SOURCE_DIR)draw_engine_top.s\
+	$(SOURCE_DIR)draw_road_span.s
 
 default: check_dependencies all
 

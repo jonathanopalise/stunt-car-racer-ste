@@ -36,15 +36,10 @@ start_blitter_span:
 skip_span:
     jmp $50048               ; (8)
 
-draw_three_chunks:
+    rept 3
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
-draw_two_chunks:
-    move.l d6,(a4)+          ; (12)
-    move.l d7,(a4)+          ; (12)
-draw_one_chunk:
-    move.l d6,(a4)+          ; (12)
-    move.l d7,(a4)+          ; (12)
+    endr
 do_nothing:
     move.l usp,a0            ; restore a0
     jmp $50048

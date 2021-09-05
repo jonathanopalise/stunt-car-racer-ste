@@ -2,13 +2,12 @@
 ; - d1 contains number of 16 pixel spans to be drawn (may be 0)
 ; - a4 is the back buffer address to which this span needs to be written
 
-road_span_from_5003c:
-    tst.w d1                 ; (4)
-    beq.s skip_span          ; (10 if taken, 8 if not)
-    bra.s start_span         ; (10)
-
 road_span_from_50018:
     addq.w #1,d1             ; (4) we need one more 16 pixel block if coming from 50018
+    bra.s start_span
+
+road_span_from_5003c:
+    dbt d1,skip_span
 
 start_span:
     add.w d1,d1              ; (4) number of words for Blitter = number of 16 pixel blocks * 4

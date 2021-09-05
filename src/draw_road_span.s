@@ -1,10 +1,16 @@
 ; if we land on road_span_loop_start, we draw one more block of 16 pixels than if
 ; we land on road_span_loop_end
+; presumably if we land on road_span_loop_end, d1 could be zero
 
-road_span_loop_start:
+road_span_from_5003c:
+    tst.w d1
+    beq.s skip_span
+    bra.s start_span
+
+road_span_from_50018:
     add.w #1,d1
-road_span_loop_end:
-    add.w #1,d1
+
+start_span:
 ; if we land on road_span_loop_start, we draw one more block of 16 pixels than if
 ; we land on road_span_loop_end
 ; do we need to update a4 at the end?
@@ -14,7 +20,7 @@ road_span_loop_end:
     add.w d1,d1
 
     lea $ffff8a2e.w,a0
-    clr.w (a0)+          ; destxinc 8a2e.w
+    clr.w (a0)+              ; destxinc 8a2e.w
     move.w #2,(a0)+          ; destyinc 8a30.w
     move.l a4,(a0)+          ; dest address 8a32.l
     move.w #1,(a0)+          ; xcount 8a36.w
@@ -24,7 +30,8 @@ road_span_loop_end:
 
     move.l (a7)+,a0
 
-    ;move.l d6,(a4)+
-    ;move.l d7,(a4)+
-    ;dbra d1,road_span_loop_start
+skip_span:
+    add.w d1,d1
+    add.l d1,a4
+
     jmp $50048

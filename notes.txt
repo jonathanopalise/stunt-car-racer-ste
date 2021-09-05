@@ -271,3 +271,16 @@ instructions that determine the colour of polygons:
     - 4feb6: this looks to be where the d6/d7 values are finalised
         - we typically have several breaks on 5003c for each break on 4feb6
     - so let's try intercepting 4feb6 to do some blitter magic
+
+
+- (dbra) This instruction decrements Di.w and branches to Addr if the result is not -1.
+- a jump from 50018 will draw at least 16 pixels, then decrement (d1=1 = 32 pixels)
+    d1=0, 16 pixels
+    d1=1, 32 pixels
+    d1=2, 48 pixels
+
+- from 5003c may be zero pixels (decrement and branch, so d1=1 is 0 pixels)
+    d1=0, 0 pixels
+    d1=1, 16 pixels
+    d1=2, 32 pixels
+

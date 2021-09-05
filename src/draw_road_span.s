@@ -30,8 +30,9 @@ start_span:
 
     move.l (a7)+,a0
 
-skip_span:
     add.w d1,d1
     add.l d1,a4
+
+skip_span:
 
     jmp $50048

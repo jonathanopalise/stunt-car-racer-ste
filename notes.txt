@@ -284,3 +284,27 @@ instructions that determine the colour of polygons:
     d1=1, 16 pixels
     d1=2, 32 pixels
 
+
+- who is calling 513e8? Are all these occurences in the vbl?
+    - 4cb3e: disabling this stops engine flames from appearing and adds flicker to race end light
+    - 462f2:
+    - 4630c:
+    - 47c90:
+    - 47c94:
+    - 48b0c:
+    - 48b20:
+    - 4cab8:
+    - 4cabe:
+    - 4cac2:
+    - 4cad4:
+    - 4cae4:
+    - 4caee:
+    - 4caf8:
+    - 4cb02:
+    - 4cb56:
+    - 4cba4:
+    - 4cbc8
+    - 4dca8
+    - 4dc94
+    - 4dca6
+    - 4dcb0

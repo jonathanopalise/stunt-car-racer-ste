@@ -2,6 +2,8 @@
 ; - d1 contains number of 16 pixel spans to be drawn (may be 0)
 ; - a4 is the back buffer address to which this span needs to be written
 
+unrolled_span_iterations equ 10
+
 road_span_from_50018:
     addq.w #1,d1             ; (4) we need one more 16 pixel block if coming from 50018
     bra.s start_span
@@ -14,7 +16,7 @@ start_span:
     add.w d1,d1              ; (4)
     move.l a0,usp            ; (4) backup a0
 
-    cmp.w #12,d1
+    cmp.w #(unrolled_span_iterations*4),d1
     bgt.s start_blitter_span ; (10 if taken, 8 if not)
 
     lea do_nothing(pc),a0
@@ -36,7 +38,7 @@ start_blitter_span:
 skip_span:
     jmp $50048               ; (8)
 
-    rept 3
+    rept unrolled_span_iterations
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
     endr

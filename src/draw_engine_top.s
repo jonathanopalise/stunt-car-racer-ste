@@ -97,6 +97,9 @@ label_513e0:
     ;        - #$c0 to control
     ;        - add 2 to destinationaddress after each pass
 
+    moveq.l #16,d2
+    moveq.l #-64,d6
+
     ; mask init
     lea $ffff8a2e.w,a4
     clr.w (a4)+              ; destxinc 8a2e.w
@@ -109,26 +112,26 @@ label_513e0:
     ; mask pass 1
     lea $ffff8a32.w,a4
     move.l a0,(a4)           ; dest address 8a32.l
-    move.w #16,6(a4)         ; ycount 8a38.w
-    move.b #$c0,10(a4)       ; blitter control 8a3c.b
+    move.w d2,6(a4)          ; ycount 8a38.w
+    move.b d6,10(a4)         ; blitter control 8a3c.b
     addq.l #2,a0
 
     ; mask pass 2
     move.l a0,(a4)           ; dest address 8a32.l
-    move.w #16,6(a4)         ; ycount 8a38.w
-    move.b #$c0,10(a4)       ; blitter control 8a3c.b
+    move.w d2,6(a4)          ; ycount 8a38.w
+    move.b d6,10(a4)         ; blitter control 8a3c.b
     addq.l #2,a0
 
     ; mask pass 3
     move.l a0,(a4)           ; dest address 8a32.l
-    move.w #16,6(a4)         ; ycount 8a38.w
-    move.b #$c0,10(a4)       ; blitter control 8a3c.b
+    move.w d2,6(a4)          ; ycount 8a38.w
+    move.b d6,10(a4)         ; blitter control 8a3c.b
     addq.l #2,a0
 
     ; mask pass 4
     move.l a0,(a4)           ; dest address 8a32.l
-    move.w #16,6(a4)         ; ycount 8a38.w
-    move.b #$c0,10(a4)       ; blitter control 8a3c.b
+    move.w d2,6(a4)          ; ycount 8a38.w
+    move.b d6,10(a4)         ; blitter control 8a3c.b
 
 
     ; 256 pixels of 4 bitplane graphics data = 128 bytes

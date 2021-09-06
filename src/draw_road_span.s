@@ -25,11 +25,9 @@ start_span:
 
 start_blitter_span:
     lea $ffff8a32.w,a0       ; (8)
-    move.l a4,(a0)+          ; (8) dest address 8a32.l
-    addq.l #2,a0             ; (8)
-    move.w d1,(a0)+          ; (8) ycount 8a38.w
-    addq.w #2,a0             ; (8)
-    move.b #$c0,(a0)         ; (12) blitter control 8a3c.b
+    move.l a4,(a0)           ; (8) dest address 8a32.l
+    move.w d1,6(a0)          ; (8) ycount 8a38.w
+    move.b #$c0,10(a0)       ; (12) blitter control 8a3c.b
     move.l usp,a0            ; (4) restore a0
 
     add.w d1,d1              ; (4) bytes to advance = words drawn * 2

@@ -287,18 +287,17 @@ instructions that determine the colour of polygons:
 
 - who is calling 513e8? Are all these occurences in the vbl?
     - 4cb3e: disabling this stops engine flames from appearing and adds flicker to race end light
-    - 462f2:
-    - 4630c:
-    - 47c90:
-    - 47c94:
-    - 48b0c:
-    - 48b20:
-    - 4cab8:
-    - 4cabe:
-    - 4cac2:
-    - 4cad4:
-    - 4cae4:
-    - 4caee:
+    - 462f2: causes timer light to flash?
+    - 4630c: not sure - seems to get called about every half second
+    - 47c90: no idea
+    - 47c94: no idea
+    - 48b0c: no idea
+    - 48b20: no idea
+    - 4cab8: no idea, does get called regularly:
+    - 4cac2: no idea
+    - 4cad4: bottom half of right wheel disappears
+    - 4cae4: bottom half or left wheel disappears
+    - 4caee: draws main engine!
     - 4caf8:
     - 4cb02:
     - 4cb56:

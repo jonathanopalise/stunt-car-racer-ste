@@ -1,3 +1,4 @@
+loadbin /home/jonathan/scr-blitter/bin/0x4caee_jump_to_draw_engine_top.bin 0x4caee
 loadbin /home/jonathan/scr-blitter/bin/0x4f246_jump_to_draw_ground.bin 0x4f246
 loadbin /home/jonathan/scr-blitter/bin/0x4f2a6_jump_to_draw_sky.bin 0x4f2a6
 loadbin /home/jonathan/scr-blitter/bin/0x4feb6_jump_to_update_halftone.bin 0x4feb6

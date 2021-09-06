@@ -12,7 +12,7 @@ PATCHES =\
 	$(BIN_DIR)0x4f246_jump_to_draw_ground.bin\
 	$(BIN_DIR)0x4f2a6_jump_to_draw_sky.bin\
 	$(BIN_DIR)0x4feb6_jump_to_update_halftone.bin\
-	$(BIN_DIR)0x513dc_jump_to_draw_engine_top.bin\
+	$(BIN_DIR)0x4caee_jump_to_draw_engine_top.bin\
 	$(BIN_DIR)0x50018_redirect_jump.bin\
 	$(BIN_DIR)0x5003c_jump_to_road_span_loop_end.bin
 

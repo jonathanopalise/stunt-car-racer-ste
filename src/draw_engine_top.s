@@ -74,33 +74,18 @@ label_513e0:
     move.b d6,10(a4)         ; blitter control 8a3c.b
 
     ; colour pass
-
-    ;    - srcxinc = 2
-    ;    - srcyinc = 2? (need to skip the mask word after each 4 words written)
-    ;    - sourceaddress = a1 + 2 (to skip initial mask word)
-    ;    - endmask1 = $ffff
-    ;    - endmask2 = $ffff
-    ;    - endmask3 = $ffff
-    ;    - destxinc = 2
-    ;    - destyinc = 0
-    ;    - destinationaddress = a0
-    ;    - xcount = 4
-    ;    - ycount = 16
-    ;    - hop/op = #$0207 (hop = halftone, op = source AND destination, 3 nops)
-    ;    - single pass #$c0 to control
-
     subq.l #6,a0
     addq.l #2,a1
     lea $ffff8a20.w,a4
     move.w #2,(a4)           ; srcxinc 8a20.w
-    move.w #2,2(a4)          ; srcyint 8a22.w
+    move.w #4,2(a4)          ; srcyinc 8a22.w
     move.l a1,4(a4)          ; source address 8a24.l
     move.w #2,14(a4)         ; destxinc 8a2e.w
-    clr.w 16(a4)             ; destyinc 8a30.w
+    move.w #2,16(a4)         ; destyinc 8a30.w
     move.l a0,18(a4)         ; dest address 8a32.l
     move.w #4,22(a4)         ; xcount 8a36.w
     move.w #16,24(a4)        ; ycount 8a38.w
-    move.w #$207,26(a4)      ; hop/op 8a3a.w
+    move.w #$207,26(a4)      ; hop/op 8a3a.w (was 020f)
     move.b d6,28(a4)         ; blitter control 8a3c.b
     subq.l #2,a1
 

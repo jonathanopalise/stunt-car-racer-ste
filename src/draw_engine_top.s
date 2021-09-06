@@ -34,6 +34,7 @@ draw_engine_top:  ; start of a line
 
     move.l d5,-(sp)
     move.w d1,-(sp)
+    move.l a4,-(a7)
 
     andi.w    #$ff,d0
     asl.w     #2,d0
@@ -62,7 +63,6 @@ label_513dc:
 label_513e0:
     ; blitter code START
 
-    move.l a4,-(a7)
 
     lea $ffff8a20.w,a4
     move.w #10,(a4)+         ; srcxinc 8a20.w
@@ -99,7 +99,7 @@ label_513e0:
 
     ; mask init
     lea $ffff8a2e.w,a4
-    move.w #0,(a4)+          ; destxinc 8a2e.w
+    clr.w (a4)+              ; destxinc 8a2e.w
     move.w #8,(a4)+          ; destyinc 8a30.w
     addq.l #4,a4             ; skip dest address 8a32.l
     move.w #1,(a4)+          ; xcount 8a36.w
@@ -130,7 +130,6 @@ label_513e0:
     move.w #16,6(a4)         ; ycount 8a38.w
     move.b #$c0,10(a4)       ; blitter control 8a3c.b
 
-    move.l (a7)+,a4
 
     ; 256 pixels of 4 bitplane graphics data = 128 bytes
     ; 256 pixels of mask data = 32 bytes
@@ -153,6 +152,7 @@ label_513e0:
     ; blitter code END
     lea       $a0(a2),a0
     dbra      d4,label_513dc
+    move.l (a7)+,a4
     move.w    (sp)+,d1
     move.l    (sp)+,d5
     rts       

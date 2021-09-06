@@ -6,7 +6,6 @@ draw_engine_top:  ; start of a line
     ; don't forget to push a4
 
     ;move.l a4,-(a7)
-
     ;lea $ffff8a20.w,a4
     ;move.w #10,(a4)+         ; srcxinc 8a20.w
     ;addq.l #2,a4             ; skip srcyinc 8a22.w
@@ -21,7 +20,6 @@ draw_engine_top:  ; start of a line
     ;move.w #1,(a4)+          ; ycount 8a38.w
     ;move.w #$203,(a4)+       ; hop/op 8a3a.w
     ;move.b #$c0,(a4)         ; blitter control 8a3c.b
-
     ;move.l (a7)+,a4
 
     ; NEW CODE END
@@ -62,18 +60,97 @@ label_513dc:
     movea.l   a0,a2
     move.w    d1,d3
 label_513e0:
-    move.l    (a0),d0
-    move.w    (a1),d5
-    swap      d5
-    move.w    (a1)+,d5
-    and.l     d5,d0
-    or.l      (a1)+,d0
-    move.l    d0,(a0)+
-    move.l    (a0),d0
-    and.l     d5,d0
-    or.l      (a1)+,d0
-    move.l    d0,(a0)+
-    dbra      d3,label_513e0
+    ; blitter code START
+
+    move.l a4,-(a7)
+
+    lea $ffff8a20.w,a4
+    move.w #10,(a4)+         ; srcxinc 8a20.w
+    addq.l #2,a4             ; skip srcyinc 8a22.w
+    move.l a1,(a4)+          ; source address 8a24.l
+    move.w #-1,(a4)+         ; endmask1 8a28.w
+    move.w #-1,(a4)+         ; endmask2 8a2a.w
+    move.w #-1,(a4)+         ; endmask3 8a2c.w
+    move.w #2,(a4)+          ; destxinc 8a2e.w
+    addq.l #2,a4             ; skip destyinc 8a30.w
+    move.l #$ffff8a00,(a4)+  ; dest address 8a32.l
+    move.w #16,(a4)+         ; xcount 8a36.w
+    move.w #1,(a4)+          ; ycount 8a38.w
+    move.w #$203,(a4)+       ; hop/op 8a3a.w
+    move.b #$c0,(a4)         ; blitter control 8a3c.b
+
+    ;AND MASK DATA ACROSS BITPLANES
+    ;    - srcxinc = (not required)
+    ;    - srcyinc = (not required)
+    ;    - sourceaddress = (not required)
+    ;    - endmask1 = $ffff
+    ;    - endmask2 = $ffff
+    ;    - endmask3 = $ffff
+    ;    - destxinc = 0
+    ;    - destyinc = 2
+    ;    - destinationaddress = a0 (add 2 on each pass)
+    ;    - xcount = 1
+    ;    - ycount = 16 (need to check this value against 68k code)
+    ;    - hop/op = #$0101 (hop = halftone, op = source AND destination, 2 nops)
+    ;    - four passes:
+    ;        - ycount = 16
+    ;        - #$c0 to control
+    ;        - add 2 to destinationaddress after each pass
+
+    ; mask init
+    lea $ffff8a2e.w,a4
+    move.w #0,(a4)+          ; destxinc 8a2e.w
+    move.w #2,(a4)+          ; destyinc 8a30.w
+    addq.l #4,a4             ; skip dest address 8a32.l
+    move.w #1,(a4)+          ; xcount 8a36.w
+    addq.l #2,a4             ; skip ycount 8a38.w
+    move.w #$101,(a4)+       ; hop/op 8a3a.w
+
+    ; mask pass 1
+    lea $ffff8a32.w,a4
+    move.l a0,(a4)           ; dest address 8a32.l
+    move.w #16,6(a4)         ; ycount 8a38.w
+    move.b #$c0,10(a4)       ; blitter control 8a3c.b
+    addq.l #2,a0
+
+    ; mask pass 2
+    lea $ffff8a32.w,a4
+    move.l a0,(a4)           ; dest address 8a32.l
+    move.w #16,6(a4)         ; ycount 8a38.w
+    move.b #$c0,10(a4)       ; blitter control 8a3c.b
+    addq.l #2,a0
+
+    ; mask pass 3
+    lea $ffff8a32.w,a4
+    move.l a0,(a4)           ; dest address 8a32.l
+    move.w #16,6(a4)         ; ycount 8a38.w
+    move.b #$c0,10(a4)       ; blitter control 8a3c.b
+    addq.l #2,a0
+
+    ; mask pass 4
+    lea $ffff8a32.w,a4
+    move.l a0,(a4)           ; dest address 8a32.l
+    move.w #16,6(a4)         ; ycount 8a38.w
+    move.b #$c0,10(a4)       ; blitter control 8a3c.b
+    addq.l #2,a0
+
+    move.l (a7)+,a4
+
+    ;move.l    (a0),d0
+    ;move.w    (a1),d5
+    ;swap      d5
+    ;move.w    (a1)+,d5
+    ;and.l     d5,d0
+    ;or.l      (a1)+,d0
+    ;move.l    d0,(a0)+
+    ;move.l    (a0),d0
+    ;and.l     d5,d0
+    ;or.l      (a1)+,d0
+    ;move.l    d0,(a0)+
+    ;dbra      d3,label_513e0
+
+
+    ; blitter code END
     lea       $a0(a2),a0
     dbra      d4,label_513dc
     move.w    (sp)+,d1

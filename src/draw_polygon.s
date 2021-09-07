@@ -113,6 +113,29 @@ label_4feac:
     bcc       label_4feb6
     not.w     d7
 label_4feb6:
+
+    ; update halftone START
+
+    move.l a0,usp
+
+    lea $ffff8a00.w,a0
+    rept 4
+    move.l d7,(a0)+
+    move.l d6,(a0)+
+    endr
+
+    lea $ffff8a2e.w,a0
+    clr.w (a0)+              ; (8) destxinc 8a2e.w
+    move.w #2,(a0)+          ; destyinc 8a30.w
+    addq.l #4,a0
+    move.w #1,(a0)+          ; xcount 8a36.w
+    addq.l #2,a0
+    move.w #$103,(a0)+       ; hop/op 8a3a.w
+
+    move.l usp,a0
+
+    ; update halftone END
+
     movea.l   #$4e0a0,a5
     move.w    (a0)+,d1
     move.w    (a3)+,d0
@@ -228,7 +251,7 @@ label_4ffc4:
 label_50012:
     subq.b    #1,d1
     andi.w    #$f,d4
-    beq       label_50040
+    beq       road_span_from_50018
     asl.w     #2,d4
     move.l    (a5,d4.w),d4
     move.l    d6,d2
@@ -244,12 +267,56 @@ label_50012:
     and.l     d4,d0
     or.l      d3,d0
     move.l    d0,(a4)+
-    bra       label_50044
-label_50040:
-    move.l    d6,(a4)+
-    move.l    d7,(a4)+
-label_50044:
-    dbra      d1,label_50040
+    bra       road_span_from_5003c
+
+; new code here
+
+; inputs:
+; - d1 contains number of 16 pixel spans to be drawn (may be 0)
+; - a4 is the back buffer address to which this span needs to be written
+
+unrolled_span_iterations equ 10
+
+road_span_from_50018:
+    addq.w #1,d1             ; (4) we need one more 16 pixel block if coming from 50018
+    bra.s start_span
+
+road_span_from_5003c:
+    dbt d1,label_50048
+
+start_span:
+    add.w d1,d1              ; (4) number of words for Blitter = number of 16 pixel blocks * 4
+    add.w d1,d1              ; (4)
+    move.l a0,usp            ; (4) backup a0
+
+    cmp.w #(unrolled_span_iterations*4),d1
+    bgt.s start_blitter_span ; (10 if taken, 8 if not)
+
+    lea do_nothing(pc),a0
+    sub.l d1,a0
+    jmp (a0)
+
+start_blitter_span:
+    lea $ffff8a32.w,a0       ; (8)
+    move.l a4,(a0)           ; (8) dest address 8a32.l
+    move.w d1,6(a0)          ; (8) ycount 8a38.w
+    move.b #$c0,10(a0)       ; (12) blitter control 8a3c.b
+    move.l usp,a0            ; (4) restore a0
+
+    add.w d1,d1              ; (4) bytes to advance = words drawn * 2
+    add.l d1,a4              ; (8) advanced dest address to end of span
+
+skip_span:
+    bra label_50048               ; (8)
+
+    rept unrolled_span_iterations
+    move.l d6,(a4)+          ; (12)
+    move.l d7,(a4)+          ; (12)
+    endr
+do_nothing:
+    move.l usp,a0            ; restore a0
+
+label_50048:
     andi.w    #$f,d5
     beq       label_50070
     asl.w     #2,d5

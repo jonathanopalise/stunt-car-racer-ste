@@ -33,7 +33,7 @@ Before attempting to build, you'll need the following executable dependencies to
 
 The build process is controlled by a `Makefile`. The `Makefile` is confirmed to work with Linux. It could possibly be repurposed for Windows with some changes - please get in touch if you can help.
 
-Once you have all of the above executables in your path, run `make` to start the build process. Should the build process succeed, there will be a series of files present in the `bin` directory - these contain binary code to be overlaid on top of the existing Stunt Car Racer game code.
+Once you have all of the above executables in your path, run `make` to start the build process. Should the build process succeed, there will be a series of files present in the `bin` directory - these contain binary code to be overlaid on top of the existing Stunt Car Racer game code. In the event that the build process fails, please raise an issue against the project and I'll help in any way I can.
 
 In order to apply these patches, you'll need to start the Hatari emulator, configure the machine as an STE with 1 Meg or more of memory, then load and run Stunt Car Racer from the Pompey Pirates #17 disk image (https://www.exxoshost.co.uk/atari/games/pompy/index.htm). Start the debugger (`AltGr + Pause`), then enter the following lines, replacing `<path-to-cloned-repository>` with the directory to which you've cloned the repo:
 
@@ -45,4 +45,4 @@ In order to apply these patches, you'll need to start the Hatari emulator, confi
 - `loadbin <path-to-cloned-repository>/bin/0x5003c_jump_to_road_span_loop_end.bin 0x5003c`
 - `loadbin <path-to-cloned-repository>/bin/0x80000.bin 0x80000`
 
-In the event that the build process fails, please raise an issue against the project and I'll help in any way I can.
+Finally, enter `c` (for "continue") at the debugger prompt, and press the Enter key. The game should continue running, but with the updated code in place of the new code. If you see bombs or screen corruption, it's possible that something has gone wrong - raise an issue against the project and I'll help in any way I can.

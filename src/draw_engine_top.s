@@ -28,9 +28,6 @@ draw_engine_top:  ; start of a line
     move.w    (a2),d1
     move.w    2(a2),d4
 label_513dc:
-    movea.l   a0,a2
-    move.w    d1,d3
-label_513e0:
     ; transfer mask to halftone
     lea $ffff8a20.w,a4
     move.w #10,(a4)          ; srcxinc 8a20.w
@@ -92,9 +89,9 @@ label_513e0:
     ; 256 pixels of 4 bitplane graphics data = 128 bytes
     ; 256 pixels of mask data = 32 bytes
     lea 160(a1),a1
+    lea 160(a0),a0
 
     ; blitter code END
-    lea       $a0(a2),a0
     dbra      d4,label_513dc
     move.l (a7)+,a4
     move.w    (sp)+,d1

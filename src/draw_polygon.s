@@ -267,7 +267,6 @@ label_50012:
     and.l     d4,d0
     or.l      d3,d0
     move.l    d0,(a4)+
-    bra       road_span_from_5003c
 
 ; new code here
 
@@ -277,12 +276,11 @@ label_50012:
 
 unrolled_span_iterations equ 10
 
-road_span_from_50018:
-    addq.w #1,d1             ; (4) we need one more 16 pixel block if coming from 50018
+    dbt d1,label_50048
     bra.s start_span
 
-road_span_from_5003c:
-    dbt d1,label_50048
+road_span_from_50018:
+    addq.w #1,d1             ; (4) we need one more 16 pixel block if coming from 50018
 
 start_span:
     add.w d1,d1              ; (4) number of words for Blitter = number of 16 pixel blocks * 4

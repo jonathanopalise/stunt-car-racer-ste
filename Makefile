@@ -21,7 +21,8 @@ PATCHES =\
 	$(SOURCE_DIR)draw_ground.s\
 	$(SOURCE_DIR)draw_engine_top.s\
 	$(SOURCE_DIR)draw_road_span.s\
-	$(SOURCE_DIR)update_halftone.s
+	$(SOURCE_DIR)update_halftone.s\
+	$(SOURCE_DIR)draw_polygon.s
 
 default: check_dependencies all
 

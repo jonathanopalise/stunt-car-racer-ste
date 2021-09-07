@@ -1,4 +1,4 @@
-# Lotus STE
+# Stunt Car Racer STE
 
 _Enhancements to the Atari ST version of Stunt Car Racer to support STE hardware features_
 

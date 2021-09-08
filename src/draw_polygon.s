@@ -120,17 +120,15 @@ label_4feb6:
 
     lea $ffff8a00.w,a0
     rept 4
-    move.l d7,(a0)+
-    move.l d6,(a0)+
+    move.l d7,(a0)+          ; (12)
+    move.l d6,(a0)+          ; (12)
     endr
 
     lea $ffff8a2e.w,a0
-    clr.w (a0)+              ; (8) destxinc 8a2e.w
-    move.w #2,(a0)+          ; destyinc 8a30.w
-    addq.l #4,a0
-    move.w #1,(a0)+          ; xcount 8a36.w
-    addq.l #2,a0
-    move.w #$103,(a0)+       ; hop/op 8a3a.w
+    clr.w (a0)               ; (8) destxinc 8a2e.w
+    move.w #2,2(a0)          ; destyinc 8a30.w
+    move.w #1,8(a0)          ; xcount 8a36.w
+    move.w #$103,12(a0)      ; hop/op 8a3a.w
 
     move.l usp,a0
 
@@ -290,7 +288,7 @@ start_span:
     cmp.w #(unrolled_span_iterations*4),d1
     bgt.s start_blitter_span ; (10 if taken, 8 if not)
 
-    lea do_nothing(pc),a0
+    lea restore_a0(pc),a0
     sub.l d1,a0
     jmp (a0)
 
@@ -299,19 +297,16 @@ start_blitter_span:
     move.l a4,(a0)           ; (8) dest address 8a32.l
     move.w d1,6(a0)          ; (8) ycount 8a38.w
     move.b #$c0,10(a0)       ; (12) blitter control 8a3c.b
-    move.l usp,a0            ; (4) restore a0
-
     add.w d1,d1              ; (4) bytes to advance = words drawn * 2
     add.l d1,a4              ; (8) advanced dest address to end of span
-
-skip_span:
-    bra label_50048               ; (8)
+    bra.s restore_a0         ; (8)
 
     rept unrolled_span_iterations
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
     endr
-do_nothing:
+
+restore_a0:
     move.l usp,a0            ; restore a0
 
 label_50048:

@@ -1,6 +1,10 @@
 loadbin /home/jonathan/scr-blitter/bin/0x4caee_jump_to_draw_engine_top.bin 0x4caee
 loadbin /home/jonathan/scr-blitter/bin/0x4f246_jump_to_draw_ground.bin 0x4f246
 loadbin /home/jonathan/scr-blitter/bin/0x4f2a6_jump_to_draw_sky.bin 0x4f2a6
+loadbin /home/jonathan/scr-blitter/bin/0x4f3fe_jump_to_draw_polygon_2.bin 0x4f3fe
+loadbin /home/jonathan/scr-blitter/bin/0x4f496_jump_to_draw_polygon_2.bin 0x4f496
 loadbin /home/jonathan/scr-blitter/bin/0x5070a_jump_to_draw_polygon.bin 0x5070a
+loadbin /home/jonathan/scr-blitter/bin/0x50b10_jump_to_draw_polygon_2.bin 0x50b10
+loadbin /home/jonathan/scr-blitter/bin/0x50eca_jump_to_draw_polygon_2.bin 0x50eca
 loadbin /home/jonathan/scr-blitter/bin/0x80000.bin 0x80000
 

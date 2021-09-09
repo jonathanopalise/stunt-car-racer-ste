@@ -120,8 +120,8 @@ label_4feb6:
 
     lea $ffff8a00.w,a0
     rept 4
-    move.l d7,(a0)+          ; (12)
     move.l d6,(a0)+          ; (12)
+    move.l d7,(a0)+          ; (12)
     endr
 
     lea $ffff8a2e.w,a0
@@ -284,13 +284,28 @@ start_span:
     add.w d1,d1              ; (4) number of words for Blitter = number of 16 pixel blocks * 4
     add.w d1,d1              ; (4)
     move.l a0,usp            ; (4) backup a0
-
-    cmp.w #(unrolled_span_iterations*4),d1
-    bgt.s start_blitter_span ; (10 if taken, 8 if not)
-
-    lea restore_a0(pc),a0
-    sub.l d1,a0
+    lea span_lookup(pc),a0
+    move.l (a0,d1.w),a0
     jmp (a0)
+
+span_lookup:
+    dc.l restore_a0
+    dc.l one_span
+    dc.l two_spans
+    dc.l three_spans
+    dc.l four_spans
+    dc.l five_spans
+    dc.l six_spans
+    dc.l seven_spans
+    dc.l eight_spans
+    dc.l nine_spans
+    dc.l start_blitter_span
+    dc.l start_blitter_span
+    dc.l start_blitter_span
+    dc.l start_blitter_span
+    dc.l start_blitter_span
+    dc.l start_blitter_span
+    dc.l start_blitter_span
 
 start_blitter_span:
     lea $ffff8a32.w,a0       ; (8)
@@ -301,10 +316,33 @@ start_blitter_span:
     add.l d1,a4              ; (8) advanced dest address to end of span
     bra.s restore_a0         ; (8)
 
-    rept unrolled_span_iterations
+nine_spans:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
-    endr
+eight_spans:
+    move.l d6,(a4)+          ; (12)
+    move.l d7,(a4)+          ; (12)
+seven_spans:
+    move.l d6,(a4)+          ; (12)
+    move.l d7,(a4)+          ; (12)
+six_spans:
+    move.l d6,(a4)+          ; (12)
+    move.l d7,(a4)+          ; (12)
+five_spans:
+    move.l d6,(a4)+          ; (12)
+    move.l d7,(a4)+          ; (12)
+four_spans:
+    move.l d6,(a4)+          ; (12)
+    move.l d7,(a4)+          ; (12)
+three_spans:
+    move.l d6,(a4)+          ; (12)
+    move.l d7,(a4)+          ; (12)
+two_spans:
+    move.l d6,(a4)+          ; (12)
+    move.l d7,(a4)+          ; (12)
+one_span:
+    move.l d6,(a4)+          ; (12)
+    move.l d7,(a4)+          ; (12)
 
 restore_a0:
     move.l usp,a0            ; restore a0

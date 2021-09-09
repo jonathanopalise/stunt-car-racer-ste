@@ -307,3 +307,5 @@ instructions that determine the colour of polygons:
     - 4dc94
     - 4dca6
     - 4dcb0
+
+tilted sky fill is at 4e054

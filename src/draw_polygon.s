@@ -281,40 +281,42 @@ road_span_from_50018:
     addq.w #1,d1             ; (4) we need one more 16 pixel block if coming from 50018
 
 start_span:
-    add.w d1,d1              ; (4) number of words for Blitter = number of 16 pixel blocks * 4
-    add.w d1,d1              ; (4)
-    move.l a0,usp            ; (4) backup a0
-    lea span_lookup(pc),a0
-    move.l (a0,d1.w),a0
-    jmp (a0)
+    move.b span_lookup(pc,d1.w),modifiable_bra+1
+modifiable_bra:
+    bra.s start_blitter_span
 
 span_lookup:
-    dc.l restore_a0
-    dc.l one_span
-    dc.l two_spans
-    dc.l three_spans
-    dc.l four_spans
-    dc.l five_spans
-    dc.l six_spans
-    dc.l seven_spans
-    dc.l eight_spans
-    dc.l nine_spans
-    dc.l start_blitter_span
-    dc.l start_blitter_span
-    dc.l start_blitter_span
-    dc.l start_blitter_span
-    dc.l start_blitter_span
-    dc.l start_blitter_span
-    dc.l start_blitter_span
+    dc.b (label_50048-modifiable_bra)-2
+    dc.b (one_span-modifiable_bra)-2
+    dc.b (two_spans-modifiable_bra)-2
+    dc.b (three_spans-modifiable_bra)-2
+    dc.b (four_spans-modifiable_bra)-2
+    dc.b (five_spans-modifiable_bra)-2
+    dc.b (six_spans-modifiable_bra)-2
+    dc.b (seven_spans-modifiable_bra)-2
+    dc.b (start_blitter_span-modifiable_bra)-2
+    dc.b (start_blitter_span-modifiable_bra)-2
+    dc.b (start_blitter_span-modifiable_bra)-2
+    dc.b (start_blitter_span-modifiable_bra)-2
+    dc.b (start_blitter_span-modifiable_bra)-2
+    dc.b (start_blitter_span-modifiable_bra)-2
+    dc.b (start_blitter_span-modifiable_bra)-2
+    dc.b (start_blitter_span-modifiable_bra)-2
+    dc.b (start_blitter_span-modifiable_bra)-2
+    dc.b (start_blitter_span-modifiable_bra)-2
 
 start_blitter_span:
+    add.w d1,d1
+    add.w d1,d1
+    move.l a0,usp
     lea $ffff8a32.w,a0       ; (8)
     move.l a4,(a0)           ; (8) dest address 8a32.l
     move.w d1,6(a0)          ; (8) ycount 8a38.w
     move.b #$c0,10(a0)       ; (12) blitter control 8a3c.b
     add.w d1,d1              ; (4) bytes to advance = words drawn * 2
     add.l d1,a4              ; (8) advanced dest address to end of span
-    bra.s restore_a0         ; (8)
+    move.l usp,a0            ; restore a0
+    bra.s label_50048        ; (8)
 
 nine_spans:
     move.l d6,(a4)+          ; (12)
@@ -343,9 +345,6 @@ two_spans:
 one_span:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
-
-restore_a0:
-    move.l usp,a0            ; restore a0
 
 label_50048:
     andi.w    #$f,d5

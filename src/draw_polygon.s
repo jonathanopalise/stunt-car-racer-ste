@@ -272,11 +272,11 @@ label_50012:
 ; - d1 contains number of 16 pixel spans to be drawn (may be 0)
 ; - a4 is the back buffer address to which this span needs to be written
 
-    dbt d1,label_50048
     bra.s start_span
 
 road_span_from_50018:
-    addq.w #1,d1             ; (4) we need one more 16 pixel block if coming from 50018
+    move.l d6,(a4)+          ; (12)
+    move.l d7,(a4)+          ; (12)
 
 start_span:
     move.b span_lookup(pc,d1.w),modifiable_bra+1
@@ -294,8 +294,8 @@ span_lookup:
     dc.b (seven_spans-modifiable_bra)-2
     dc.b (eight_spans-modifiable_bra)-2
     dc.b (nine_spans-modifiable_bra)-2
-    dc.b (start_blitter_span-modifiable_bra)-2
-    dc.b (start_blitter_span-modifiable_bra)-2
+    dc.b (ten_spans-modifiable_bra)-2
+    dc.b (eleven_spans-modifiable_bra)-2
     dc.b (start_blitter_span-modifiable_bra)-2
     dc.b (start_blitter_span-modifiable_bra)-2
     dc.b (start_blitter_span-modifiable_bra)-2
@@ -316,6 +316,12 @@ start_blitter_span:
     move.l usp,a0            ; restore a0
     bra.s label_50048        ; (8)
 
+eleven_spans:
+    move.l d6,(a4)+          ; (12)
+    move.l d7,(a4)+          ; (12)
+ten_spans:
+    move.l d6,(a4)+          ; (12)
+    move.l d7,(a4)+          ; (12)
 nine_spans:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)

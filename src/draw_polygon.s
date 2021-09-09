@@ -272,8 +272,6 @@ label_50012:
 ; - d1 contains number of 16 pixel spans to be drawn (may be 0)
 ; - a4 is the back buffer address to which this span needs to be written
 
-unrolled_span_iterations equ 10
-
     dbt d1,label_50048
     bra.s start_span
 
@@ -294,8 +292,8 @@ span_lookup:
     dc.b (five_spans-modifiable_bra)-2
     dc.b (six_spans-modifiable_bra)-2
     dc.b (seven_spans-modifiable_bra)-2
-    dc.b (start_blitter_span-modifiable_bra)-2
-    dc.b (start_blitter_span-modifiable_bra)-2
+    dc.b (eight_spans-modifiable_bra)-2
+    dc.b (nine_spans-modifiable_bra)-2
     dc.b (start_blitter_span-modifiable_bra)-2
     dc.b (start_blitter_span-modifiable_bra)-2
     dc.b (start_blitter_span-modifiable_bra)-2

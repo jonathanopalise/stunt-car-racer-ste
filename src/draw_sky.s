@@ -23,7 +23,7 @@ draw_sky:
     endr
     move.l a0,-10(a4)   ; 8a32.l destaddress
     move.w d4,-4(a4)    ; 8a38.w ycount
-    ;clr.w -2(a4)        ; 8a3a.w hop/op
+    clr.w -2(a4)        ; 8a3a.w hop/op
     move.b #$c0,(a4)    ; 8a3c.b control
 
     move.l (a7)+,a0     ; restore a0

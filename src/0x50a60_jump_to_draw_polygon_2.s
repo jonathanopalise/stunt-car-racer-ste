@@ -1,4 +1,4 @@
-    ORG $4f496
+    ORG $50a60
 
     include generated/symbols_0x80000.inc
 

@@ -134,7 +134,7 @@ label_4dfd8:
 label_4e026:
     subq.b    #1,d1
     andi.w    #$f,d4
-    beq       label_4e054
+    beq       dp2_span_from_4e02c
     asl.w     #2,d4
     move.l    (a5,d4.w),d4
     move.l    d6,d2
@@ -150,12 +150,74 @@ label_4e026:
     and.l     d4,d0
     or.l      d3,d0
     move.l    d0,(a4)+
-    bra       label_4e058
-label_4e054:
-    move.l    d6,(a4)+
-    move.l    d6,(a4)+
-label_4e058:
-    dbra      d1,label_4e054
+
+    ; new code
+
+    macro dp2_16_pixel_span
+    move.l d6,(a4)+          ; (12)
+    move.l d7,(a4)+          ; (12)
+    endm
+
+    bra dp2_start_span
+
+dp2_span_from_4e02c:
+    dp2_16_pixel_span
+
+dp2_start_span:
+    move.b dp2_span_lookup(pc,d1.w),dp2_modifiable_bra+1
+dp2_modifiable_bra:
+    bra.s dp2_do_nothing
+
+dp2_span_lookup:
+    dc.b (dp2_do_nothing-dp2_modifiable_bra)-2
+    dc.b (dp2_one_span-dp2_modifiable_bra)-2
+    dc.b (dp2_two_spans-dp2_modifiable_bra)-2
+    dc.b (dp2_three_spans-dp2_modifiable_bra)-2
+    dc.b (dp2_four_spans-dp2_modifiable_bra)-2
+    dc.b (dp2_five_spans-dp2_modifiable_bra)-2
+    dc.b (dp2_six_spans-dp2_modifiable_bra)-2
+    dc.b (dp2_seven_spans-dp2_modifiable_bra)-2
+    dc.b (dp2_eight_spans-dp2_modifiable_bra)-2
+    dc.b (dp2_nine_spans-dp2_modifiable_bra)-2
+    dc.b (dp2_ten_spans-dp2_modifiable_bra)-2
+    dc.b (dp2_eleven_spans-dp2_modifiable_bra)-2
+    dc.b (dp2_twelve_spans-dp2_modifiable_bra)-2
+    dc.b (dp2_thirteen_spans-dp2_modifiable_bra)-2
+    dc.b (dp2_fourteen_spans-dp2_modifiable_bra)-2
+    dc.b (dp2_fifteen_spans-dp2_modifiable_bra)-2
+
+dp2_fifteen_spans:
+    dp2_16_pixel_span
+dp2_fourteen_spans:
+    dp2_16_pixel_span
+dp2_thirteen_spans:
+    dp2_16_pixel_span
+dp2_twelve_spans:
+    dp2_16_pixel_span
+dp2_eleven_spans:
+    dp2_16_pixel_span
+dp2_ten_spans:
+    dp2_16_pixel_span
+dp2_nine_spans:
+    dp2_16_pixel_span
+dp2_eight_spans:
+    dp2_16_pixel_span
+dp2_seven_spans:
+    dp2_16_pixel_span
+dp2_six_spans:
+    dp2_16_pixel_span
+dp2_five_spans:
+    dp2_16_pixel_span
+dp2_four_spans:
+    dp2_16_pixel_span
+dp2_three_spans:
+    dp2_16_pixel_span
+dp2_two_spans:
+    dp2_16_pixel_span
+dp2_one_span:
+    dp2_16_pixel_span
+dp2_do_nothing:
+
     andi.w    #$f,d5
     beq       label_4e084
     asl.w     #2,d5

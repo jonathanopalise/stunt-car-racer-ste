@@ -1,74 +1,74 @@
-dps_span_from_4e02c:
+dp2_span_from_4e02c:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
 
-dps_start_span:
-    move.b dps_span_lookup(pc,d1.w),dps_modifiable_bra+1
-dps_modifiable_bra:
-    bra.s dps_do_nothing
+dp2_start_span:
+    move.b dp2_span_lookup(pc,d1.w),dps_modifiable_bra+1
+dp2_modifiable_bra:
+    bra.s dp2_do_nothing
 
-dps_span_lookup:
-    dc.b (dps_do_nothing-dps_modifiable_bra)-2
-    dc.b (dps_one_span-dps_modifiable_bra)-2
-    dc.b (dps_two_spans-dps_modifiable_bra)-2
-    dc.b (dps_three_spans-dps_modifiable_bra)-2
-    dc.b (dps_four_spans-dps_modifiable_bra)-2
-    dc.b (dps_five_spans-dps_modifiable_bra)-2
-    dc.b (dps_six_spans-dps_modifiable_bra)-2
-    dc.b (dps_seven_spans-dps_modifiable_bra)-2
-    dc.b (dps_eight_spans-dps_modifiable_bra)-2
-    dc.b (dps_nine_spans-dps_modifiable_bra)-2
-    dc.b (dps_ten_spans-dps_modifiable_bra)-2
-    dc.b (dps_eleven_spans-dps_modifiable_bra)-2
-    dc.b (dps_twelve_spans-dps_modifiable_bra)-2
-    dc.b (dps_thirteen_spans-dps_modifiable_bra)-2
-    dc.b (dps_fourteen_spans-dps_modifiable_bra)-2
-    dc.b (dps_fifteen_spans-dps_modifiable_bra)-2
+dp2_span_lookup:
+    dc.b (dp2_do_nothing-dps_modifiable_bra)-2
+    dc.b (dp2_one_span-dps_modifiable_bra)-2
+    dc.b (dp2_two_spans-dps_modifiable_bra)-2
+    dc.b (dp2_three_spans-dps_modifiable_bra)-2
+    dc.b (dp2_four_spans-dps_modifiable_bra)-2
+    dc.b (dp2_five_spans-dps_modifiable_bra)-2
+    dc.b (dp2_six_spans-dps_modifiable_bra)-2
+    dc.b (dp2_seven_spans-dps_modifiable_bra)-2
+    dc.b (dp2_eight_spans-dps_modifiable_bra)-2
+    dc.b (dp2_nine_spans-dps_modifiable_bra)-2
+    dc.b (dp2_ten_spans-dps_modifiable_bra)-2
+    dc.b (dp2_eleven_spans-dps_modifiable_bra)-2
+    dc.b (dp2_twelve_spans-dps_modifiable_bra)-2
+    dc.b (dp2_thirteen_spans-dps_modifiable_bra)-2
+    dc.b (dp2_fourteen_spans-dps_modifiable_bra)-2
+    dc.b (dp2_fifteen_spans-dps_modifiable_bra)-2
 
-dps_fifteen_spans:
+dp2_fifteen_spans:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
-dps_fourteen_spans:
+dp2_fourteen_spans:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
-dps_thirteen_spans:
+dp2_thirteen_spans:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
-dps_twelve_spans:
+dp2_twelve_spans:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
-dps_eleven_spans:
+dp2_eleven_spans:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
-dps_ten_spans:
+dp2_ten_spans:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
-dps_nine_spans:
+dp2_nine_spans:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
-dps_eight_spans:
+dp2_eight_spans:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
-dps_seven_spans:
+dp2_seven_spans:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
-dps_six_spans:
+dp2_six_spans:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
-dps_five_spans:
+dp2_five_spans:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
-dps_four_spans:
+dp2_four_spans:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
-dps_three_spans:
+dp2_three_spans:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
-dps_two_spans:
+dp2_two_spans:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
-dps_one_span:
+dp2_one_span:
     move.l d6,(a4)+          ; (12)
     move.l d7,(a4)+          ; (12)
-dps_do_nothing:
+dp2_do_nothing:
     jmp $4e05c 

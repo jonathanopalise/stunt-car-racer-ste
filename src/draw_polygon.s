@@ -272,11 +272,15 @@ label_50012:
 ; - d1 contains number of 16 pixel spans to be drawn (may be 0)
 ; - a4 is the back buffer address to which this span needs to be written
 
+    macro dp_16_pixel_span
+    move.l d6,(a4)+          ; (12)
+    move.l d7,(a4)+          ; (12)
+    endm
+
     bra.s start_span
 
 road_span_from_50018:
-    move.l d6,(a4)+          ; (12)
-    move.l d7,(a4)+          ; (12)
+    dp_16_pixel_span
 
 start_span:
     move.b span_lookup(pc,d1.w),modifiable_bra+1
@@ -317,38 +321,27 @@ start_blitter_span:
     bra.s label_50048        ; (8)
 
 eleven_spans:
-    move.l d6,(a4)+          ; (12)
-    move.l d7,(a4)+          ; (12)
+    dp_16_pixel_span
 ten_spans:
-    move.l d6,(a4)+          ; (12)
-    move.l d7,(a4)+          ; (12)
+    dp_16_pixel_span
 nine_spans:
-    move.l d6,(a4)+          ; (12)
-    move.l d7,(a4)+          ; (12)
+    dp_16_pixel_span
 eight_spans:
-    move.l d6,(a4)+          ; (12)
-    move.l d7,(a4)+          ; (12)
+    dp_16_pixel_span
 seven_spans:
-    move.l d6,(a4)+          ; (12)
-    move.l d7,(a4)+          ; (12)
+    dp_16_pixel_span
 six_spans:
-    move.l d6,(a4)+          ; (12)
-    move.l d7,(a4)+          ; (12)
+    dp_16_pixel_span
 five_spans:
-    move.l d6,(a4)+          ; (12)
-    move.l d7,(a4)+          ; (12)
+    dp_16_pixel_span
 four_spans:
-    move.l d6,(a4)+          ; (12)
-    move.l d7,(a4)+          ; (12)
+    dp_16_pixel_span
 three_spans:
-    move.l d6,(a4)+          ; (12)
-    move.l d7,(a4)+          ; (12)
+    dp_16_pixel_span
 two_spans:
-    move.l d6,(a4)+          ; (12)
-    move.l d7,(a4)+          ; (12)
+    dp_16_pixel_span
 one_span:
-    move.l d6,(a4)+          ; (12)
-    move.l d7,(a4)+          ; (12)
+    dp_16_pixel_span
 
 label_50048:
     andi.w    #$f,d5

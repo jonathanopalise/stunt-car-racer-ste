@@ -124,6 +124,12 @@ label_4feb6:
     move.l d7,(a0)+          ; (12)
     endr
 
+    lea $ffff8a2e.w,a0
+    clr.w (a0)               ; (8) destxinc 8a2e.w
+    move.w #2,2(a0)          ; destyinc 8a30.w
+    move.w #1,8(a0)          ; xcount 8a36.w
+    move.w #$103,12(a0)      ; hop/op 8a3a.w
+
     move.l usp,a0
 
     ; update halftone END

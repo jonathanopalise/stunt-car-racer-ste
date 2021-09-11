@@ -355,3 +355,18 @@ occurences of d7,(a4)+
 4e056
 
 4e056
+
+engine compiled sprite
+----------------------
+from an AND pass standpoint, any given 16 pixel block can be one of the following:
+    - no AND pass required (block is either empty, or all 16 pixels occupied by imagery)
+    - AND pass required, mask specified
+
+so we'll need to scan through the 
+
+data starts at 0x68664
+- 21 lines, each with 256 pixels of colour data (128 bytes) and 32 bytes of mask data
+- so 160 bytes per line * 21 lines = 3360 bytes
+
+profiling 4caee to 4caf4:
+- with latest compiled sprite: 0.229

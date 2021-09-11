@@ -21,7 +21,8 @@ PATCHES =\
 	$(SOURCE_DIR)draw_ground.s\
 	$(SOURCE_DIR)draw_engine_top.s\
 	$(SOURCE_DIR)draw_polygon.s\
-	$(SOURCE_DIR)draw_polygon_2.s
+	$(SOURCE_DIR)draw_polygon_2.s\
+	$(GENERATED_SOURCE_DIR)engine_top_sprite.s
 
 default: check_dependencies all
 
@@ -42,6 +43,9 @@ all: $(GENERATED_SOURCE_DIR) $(BIN_FILES)
 
 $(PATCHES): $(BIN_DIR)%.bin: $(SOURCE_DIR)%.s $(GENERATED_SOURCE_DIR)symbols_0x80000.inc
 	$(VASM) $< -Fbin -o $@
+
+$(GENERATED_SOURCE_DIR)engine_top_sprite.s: $(SOURCE_DIR)generate_engine_top_sprite.php $(SOURCE_DIR)engine_top.bin
+	$(PHP) $(SOURCE_DIR)generate_engine_top_sprite.php $(SOURCE_DIR)engine_top.bin $(GENERATED_SOURCE_DIR)engine_top_sprite.s
 
 $(BIN_DIR)0x80000.bin: $(SOURCE_DIR)0x80000.s $(0X80000_DEPENDENCIES) $(GENERATED_SOURCE_DIR)symbols_0x80000.php
 	$(VASM) $< -Fbin -o $@

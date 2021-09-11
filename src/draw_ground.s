@@ -1,6 +1,6 @@
 draw_ground:
 
-    move.l a0,-(a7)
+    move.l a0,usp
     move.l a4,a0
 
     addq.l #1,d4
@@ -35,7 +35,7 @@ draw_ground:
     clr.w -2(a4)        ; 8a3a.w hop/op
     move.b #$c0,(a4)    ; 8a3c.b control
 
-    move.l (a7)+,a0     ; restore a0
+    move.l usp,a0     ; restore a0
 
     jmp $4f290
 

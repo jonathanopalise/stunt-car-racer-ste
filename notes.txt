@@ -349,3 +349,9 @@ code to jsr to draw_polygon_2 is
 
 loadbin /home/jonathan/scr-blitter/bin/0x80000.bin 0x80000
 w 0x4f496 0x4e 0xb9 0x00 0x08 0x06 0x04
+
+occurences of d7,(a4)+
+4de7c
+4e056
+
+4e056

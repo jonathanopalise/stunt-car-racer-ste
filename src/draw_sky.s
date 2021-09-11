@@ -1,5 +1,5 @@
 draw_sky:
-    move.l a0,-(a7)
+    move.l a0,usp
 
     addq.l #1,d4
     lea $ffff8a28.w,a4
@@ -26,7 +26,7 @@ draw_sky:
     clr.w -2(a4)        ; 8a3a.w hop/op
     move.b #$c0,(a4)    ; 8a3c.b control
 
-    move.l (a7)+,a0     ; restore a0
+    move.l usp,a0     ; restore a0
 
     jmp $4f2f6
 

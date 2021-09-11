@@ -39,81 +39,283 @@ draw_engine_top:  ; start of a line
     lea $ffff8a20.w,a4
     move.w #10,(a4)          ; srcxinc 8a20.w
 label_513dc:
-    ; transfer mask to halftone
-    lea $ffff8a20.w,a4
-    move.l a1,4(a4)          ; source address 8a24.l
-    move.w d7,14(a4)         ; destxinc 8a2e.w
-    move.l d0,18(a4)         ; dest address 8a32.l
-    move.w d2,22(a4)         ; xcount 8a36.w
-    move.w d3,24(a4)         ; ycount 8a38.w
-    move.w #$203,26(a4)      ; hop/op 8a3a.w
-    move.b d6,28(a4)         ; blitter control 8a3c.b
 
-    ; mask init
-    lea $ffff8a2e.w,a4
-    clr.w (a4)               ; destxinc 8a2e.w
-    move.w #8,2(a4)          ; destyinc 8a30.w
-    move.w d3,8(a4)          ; xcount 8a36.w
-    move.w #$101,12(a4)      ; hop/op 8a3a.w
+    ; hello start
+    move.l d1,-(a7)
 
-    ; mask pass 1
-    addq.l #4,a4
-    move.l a0,(a4)           ; dest address 8a32.l
-    move.w d2,6(a4)          ; ycount 8a38.w
-    move.b d6,10(a4)         ; blitter control 8a3c.b
-    addq.l #2,a0
+    move.l #$ff00ff00,d1
+    and.l d1,48(a0)
+    and.l d1,52(a0)
+    and.l d1,224(a0)
+    and.l d1,228(a0)
+    and.l d1,384(a0)
+    and.l d1,388(a0)
+    and.l d1,544(a0)
+    and.l d1,548(a0)
+    and.l d1,704(a0)
+    and.l d1,708(a0)
+    and.l d1,864(a0)
+    and.l d1,868(a0)
+    and.l d1,1800(a0)
+    and.l d1,1804(a0)
+    move.l #$03ff03ff,d1
+    and.l d1,56(a0)
+    and.l d1,60(a0)
+    and.l d1,1224(a0)
+    and.l d1,1228(a0)
+    and.l d1,3160(a0)
+    and.l d1,3164(a0)
+    and.l d1,3320(a0)
+    and.l d1,3324(a0)
+    move.l #$ffc0ffc0,d1
+    and.l d1,64(a0)
+    and.l d1,68(a0)
+    and.l d1,1136(a0)
+    and.l d1,1140(a0)
+    and.l d1,3040(a0)
+    and.l d1,3044(a0)
+    and.l d1,3200(a0)
+    and.l d1,3204(a0)
+    move.l #$00ff00ff,d1
+    and.l d1,72(a0)
+    and.l d1,76(a0)
+    and.l d1,216(a0)
+    and.l d1,220(a0)
+    and.l d1,376(a0)
+    and.l d1,380(a0)
+    and.l d1,536(a0)
+    and.l d1,540(a0)
+    and.l d1,696(a0)
+    and.l d1,700(a0)
+    and.l d1,856(a0)
+    and.l d1,860(a0)
+    and.l d1,1840(a0)
+    and.l d1,1844(a0)
+    move.l #$fc00fc00,d1
+    and.l d1,208(a0)
+    and.l d1,212(a0)
+    and.l d1,504(a0)
+    and.l d1,508(a0)
+    and.l d1,1960(a0)
+    and.l d1,1964(a0)
+    move.l #$003f003f,d1
+    and.l d1,232(a0)
+    and.l d1,236(a0)
+    and.l d1,576(a0)
+    and.l d1,580(a0)
+    and.l d1,2000(a0)
+    and.l d1,2004(a0)
+    move.l #$fe01fe01,d1
+    and.l d1,344(a0)
+    and.l d1,348(a0)
+    move.l #$f800f800,d1
+    and.l d1,368(a0)
+    and.l d1,372(a0)
+    and.l d1,528(a0)
+    and.l d1,532(a0)
+    and.l d1,664(a0)
+    and.l d1,668(a0)
+    move.l #$001f001f,d1
+    and.l d1,392(a0)
+    and.l d1,396(a0)
+    and.l d1,552(a0)
+    and.l d1,556(a0)
+    and.l d1,736(a0)
+    and.l d1,740(a0)
+    move.l #$807f807f,d1
+    and.l d1,416(a0)
+    and.l d1,420(a0)
+    move.l #$7fff7fff,d1
+    and.l d1,672(a0)
+    and.l d1,676(a0)
+    and.l d1,832(a0)
+    and.l d1,836(a0)
+    and.l d1,992(a0)
+    and.l d1,996(a0)
+    and.l d1,1152(a0)
+    and.l d1,1156(a0)
+    and.l d1,1312(a0)
+    and.l d1,1316(a0)
+    and.l d1,1472(a0)
+    and.l d1,1476(a0)
+    and.l d1,2360(a0)
+    and.l d1,2364(a0)
+    move.l #$e000e000,d1
+    and.l d1,688(a0)
+    and.l d1,692(a0)
+    and.l d1,848(a0)
+    and.l d1,852(a0)
+    and.l d1,2280(a0)
+    and.l d1,2284(a0)
+    move.l #$00070007,d1
+    and.l d1,712(a0)
+    and.l d1,716(a0)
+    and.l d1,872(a0)
+    and.l d1,876(a0)
+    and.l d1,2320(a0)
+    and.l d1,2324(a0)
+    move.l #$fffefffe,d1
+    and.l d1,728(a0)
+    and.l d1,732(a0)
+    and.l d1,888(a0)
+    and.l d1,892(a0)
+    and.l d1,1048(a0)
+    and.l d1,1052(a0)
+    and.l d1,1208(a0)
+    and.l d1,1212(a0)
+    and.l d1,1368(a0)
+    and.l d1,1372(a0)
+    and.l d1,1528(a0)
+    and.l d1,1532(a0)
+    and.l d1,2240(a0)
+    and.l d1,2244(a0)
+    move.l #$fff8fff8,d1
+    and.l d1,816(a0)
+    and.l d1,820(a0)
+    and.l d1,1768(a0)
+    and.l d1,1772(a0)
+    and.l d1,2488(a0)
+    and.l d1,2492(a0)
+    and.l d1,2560(a0)
+    and.l d1,2564(a0)
+    and.l d1,2648(a0)
+    and.l d1,2652(a0)
+    move.l #$1fff1fff,d1
+    and.l d1,904(a0)
+    and.l d1,908(a0)
+    and.l d1,1872(a0)
+    and.l d1,1876(a0)
+    and.l d1,2432(a0)
+    and.l d1,2436(a0)
+    and.l d1,2592(a0)
+    and.l d1,2596(a0)
+    and.l d1,2680(a0)
+    and.l d1,2684(a0)
+    move.l #$ffe0ffe0,d1
+    and.l d1,976(a0)
+    and.l d1,980(a0)
+    and.l d1,2088(a0)
+    and.l d1,2092(a0)
+    and.l d1,2880(a0)
+    and.l d1,2884(a0)
+    move.l #$80008000,d1
+    and.l d1,1008(a0)
+    and.l d1,1012(a0)
+    and.l d1,2440(a0)
+    and.l d1,2444(a0)
+    move.l #$00fc00fc,d1
+    and.l d1,1016(a0)
+    and.l d1,1020(a0)
+    move.l #$3f003f00,d1
+    and.l d1,1024(a0)
+    and.l d1,1028(a0)
+    move.l #$00010001,d1
+    and.l d1,1032(a0)
+    and.l d1,1036(a0)
+    and.l d1,2480(a0)
+    and.l d1,2484(a0)
+    move.l #$07ff07ff,d1
+    and.l d1,1064(a0)
+    and.l d1,1068(a0)
+    and.l d1,2192(a0)
+    and.l d1,2196(a0)
+    and.l d1,3000(a0)
+    and.l d1,3004(a0)
+    move.l #$00f800f8,d1
+    and.l d1,1176(a0)
+    and.l d1,1180(a0)
+    and.l d1,1336(a0)
+    and.l d1,1340(a0)
+    move.l #$1f001f00,d1
+    and.l d1,1184(a0)
+    and.l d1,1188(a0)
+    and.l d1,1344(a0)
+    and.l d1,1348(a0)
+    move.l #$ff80ff80,d1
+    and.l d1,1296(a0)
+    and.l d1,1300(a0)
+    move.l #$01ff01ff,d1
+    and.l d1,1384(a0)
+    and.l d1,1388(a0)
+    move.l #$fffcfffc,d1
+    and.l d1,1608(a0)
+    and.l d1,1612(a0)
+    and.l d1,1688(a0)
+    and.l d1,1692(a0)
+    and.l d1,1848(a0)
+    and.l d1,1852(a0)
+    and.l d1,2008(a0)
+    and.l d1,2012(a0)
+    and.l d1,2168(a0)
+    and.l d1,2172(a0)
+    and.l d1,2328(a0)
+    and.l d1,2332(a0)
+    and.l d1,2400(a0)
+    and.l d1,2404(a0)
+    move.l #$3fff3fff,d1
+    and.l d1,1632(a0)
+    and.l d1,1636(a0)
+    and.l d1,1712(a0)
+    and.l d1,1716(a0)
+    and.l d1,1792(a0)
+    and.l d1,1796(a0)
+    and.l d1,1952(a0)
+    and.l d1,1956(a0)
+    and.l d1,2112(a0)
+    and.l d1,2116(a0)
+    and.l d1,2272(a0)
+    and.l d1,2276(a0)
+    and.l d1,2520(a0)
+    and.l d1,2524(a0)
+    move.l #$ffe2ffe2,d1
+    and.l d1,1640(a0)
+    and.l d1,1644(a0)
+    move.l #$47ff47ff,d1
+    and.l d1,1680(a0)
+    and.l d1,1684(a0)
+    move.l #$fff0fff0,d1
+    and.l d1,1928(a0)
+    and.l d1,1932(a0)
+    and.l d1,2720(a0)
+    and.l d1,2724(a0)
+    move.l #$0fff0fff,d1
+    and.l d1,2032(a0)
+    and.l d1,2036(a0)
+    and.l d1,2840(a0)
+    and.l d1,2844(a0)
+    move.l #$f000f000,d1
+    and.l d1,2120(a0)
+    and.l d1,2124(a0)
+    move.l #$000f000f,d1
+    and.l d1,2160(a0)
+    and.l d1,2164(a0)
+    move.l #$1ffe1ffe,d1
+    and.l d1,2752(a0)
+    and.l d1,2756(a0)
+    move.l #$7ff87ff8,d1
+    and.l d1,2808(a0)
+    and.l d1,2812(a0)
+    move.l #$1ff81ff8,d1
+    and.l d1,2912(a0)
+    and.l d1,2916(a0)
+    and.l d1,2968(a0)
+    and.l d1,2972(a0)
+    move.l #$0fe00fe0,d1
+    and.l d1,3072(a0)
+    and.l d1,3076(a0)
+    move.l #$07f007f0,d1
+    and.l d1,3128(a0)
+    and.l d1,3132(a0)
+    move.l #$03800380,d1
+    and.l d1,3232(a0)
+    and.l d1,3236(a0)
+    move.l #$01c001c0,d1
+    and.l d1,3288(a0)
+    and.l d1,3292(a0)
 
-    ; mask pass 2
-    move.l a0,(a4)           ; dest address 8a32.l
-    move.w d2,6(a4)          ; ycount 8a38.w
-    move.b d6,10(a4)         ; blitter control 8a3c.b
-    addq.l #2,a0
+    move.l (a7)+,d1
 
-    ; mask pass 3
-    move.l a0,(a4)           ; dest address 8a32.l
-    move.w d2,6(a4)          ; ycount 8a38.w
-    move.b d6,10(a4)         ; blitter control 8a3c.b
-    addq.l #2,a0
-
-    ; mask pass 4
-    move.l a0,(a4)           ; dest address 8a32.l
-    move.w d2,6(a4)          ; ycount 8a38.w
-    move.b d6,10(a4)         ; blitter control 8a3c.b
-
-    lea 160(a1),a1
-    lea 160-6(a0),a0
-
-    ; blitter code END
-    dbra d4,label_513dc
-
-    move.w 2(a2),d4          ; number of iterations
-    move.l usp,a0            ; restore dest address
-    move.l d5,a1             ; restore source address
-    addq.l #2,a1             ; advance source address to colour data
-
-    ; significant values here are:
-    ; d4 - number of iterations
-    ; a0 - destination address
-    ; a1 - source address
-    lea $ffff8a20.w,a4
-    move.w d7,(a4)           ; srcxinc 8a20.w
-    move.w d1,2(a4)          ; srcyinc 8a22.w
-    move.w d7,14(a4)         ; destxinc 8a2e.w
-    move.w d7,16(a4)         ; destyinc 8a30.w
-    move.w d1,22(a4)         ; xcount 8a36.w
-    move.w #$207,26(a4)      ; hop/op 8a3a.w
-
-label_colour:
-    lea $ffff8a20.w,a4
-    move.l a1,4(a4)          ; source address 8a24.l
-    move.l a0,18(a4)         ; dest address 8a32.l
-    move.w d2,24(a4)         ; ycount 8a38.w
-    move.b d6,28(a4)         ; blitter control 8a3c.b
-
-    lea 160(a1),a1           ; advance source
-    lea 160(a0),a0           ; advance destination
-
-    dbra d4,label_colour
+    ; hello end
 
     move.l (a7)+,a4
     rts       

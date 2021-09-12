@@ -41,6 +41,8 @@ In order to apply these patches, you'll need to start the Hatari emulator, confi
 - `loadbin <path-to-cloned-repository>/bin/0x4f246_jump_to_draw_ground.bin 0x4f246`
 - `loadbin <path-to-cloned-repository>/bin/0x4f2a6_jump_to_draw_sky.bin 0x4f2a6`
 - `loadbin <path-to-cloned-repository>/bin/0x5070a_jump_to_draw_polygon.bin 0x5070a`
+- `loadbin <path-to-cloned-repository>/bin/0x50a60_jump_to_draw_polygon_2.bin 0x50a60`
+- `loadbin <path-to-cloned-repository>/bin/0x50b10_jump_to_draw_polygon_2.bin 0x50b10`
 - `loadbin <path-to-cloned-repository>/bin/0x80000.bin 0x80000`
 
 Finally, enter `c` (for "continue") at the debugger prompt, and press the Enter key. The game should continue running, but with the updated code in place of the new code. If you see bombs or screen corruption, it's possible that something has gone wrong - raise an issue against the project and I'll help in any way I can.
